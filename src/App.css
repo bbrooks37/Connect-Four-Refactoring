@@ -1,20 +1,20 @@
-/* App.css */
+/* App.css - Updated for a more professional and modern aesthetic and to fix the animation bug */
 
 :root {
-  --background-color: #f0f2f5;
-  --card-background: #ffffff;
-  --primary-color: #0d47a1;
-  --secondary-color: #b3e5fc;
-  --button-start: linear-gradient(45deg, #4caf50, #8bc34a);
-  --button-reset: linear-gradient(45deg, #f44336, #e57373);
-  --text-dark: #333333;
-  --text-light: #f9f9f9;
+  /* Refined color palette using CSS variables for easy customization */
+  --background-color: #f0f4f8; /* Light gray-blue background */
+  --card-background: #ffffff; /* Clean white for the game card */
+  --primary-color: #2c3e50; /* Deep blue for the title and main elements */
+  --board-color: #3498db; /* A vibrant blue for the game board */
+  --board-hole-color: #ecf0f1; /* Off-white for the holes */
+  --text-dark: #34495e; /* Dark text for readability */
+  --text-light: #ecf0f1;
+  --button-hover-shadow: rgba(52, 152, 219, 0.4);
+  --button-start-color: #27ae60; /* A friendly green for the start button */
+  --button-reset-color: #e74c3c; /* A strong red for the reset button */
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-}
-
+/* Base styles for the main app container */
 .app-container {
   display: flex;
   justify-content: center;
@@ -22,43 +22,46 @@ body {
   min-height: 100vh;
   background-color: var(--background-color);
   padding: 20px;
+  transition: background-color 0.3s ease;
 }
 
+/* Card containing the entire game */
 .game-card {
   background-color: var(--card-background);
   border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
   padding: 40px;
   text-align: center;
-  max-width: 600px;
+  max-width: 650px;
   width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .game-title {
-  font-size: 3em;
+  font-size: 3.5rem;
   font-weight: 800;
   color: var(--primary-color);
   margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.start-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .instructions {
-  font-size: 1.2em;
+  font-size: 1.25rem;
   color: var(--text-dark);
+  margin-bottom: 25px;
 }
 
+/* Player color selection */
 .player-inputs {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 30px;
 }
 
 .player-input {
@@ -69,8 +72,8 @@ body {
 }
 
 .player-label {
-  font-size: 1.1em;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--text-dark);
 }
 
@@ -79,26 +82,28 @@ body {
   -moz-appearance: none;
   appearance: none;
   width: 60px;
-  height: 40px;
-  border: none;
-  border-radius: 8px;
+  height: 60px;
+  border: 4px solid var(--board-color);
+  border-radius: 50%;
   cursor: pointer;
   background-color: transparent;
   padding: 0;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, border-color 0.2s ease;
 }
 .color-picker:hover {
   transform: scale(1.1);
+  border-color: var(--button-start-color);
 }
 .color-picker::-webkit-color-swatch {
   border: none;
-  border-radius: 8px;
+  border-radius: 50%;
 }
 .color-picker::-webkit-color-swatch-wrapper {
   padding: 0;
 }
 
-.start-button, .reset-button {
+/* Buttons */
+.game-button {
   border: none;
   padding: 15px 40px;
   border-radius: 50px;
@@ -106,67 +111,76 @@ body {
   font-size: 1.1em;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
 }
 
 .start-button {
-  background: var(--button-start);
+  background: var(--button-start-color);
 }
-
 .start-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px var(--button-hover-shadow);
 }
 
 .reset-button {
-  background: var(--button-reset);
+  background: var(--button-reset-color);
 }
 .reset-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px var(--button-hover-shadow);
 }
 
+/* Game screen elements */
 .game-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
 }
 
 .game-status {
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-dark);
 }
 
 .current-player-color {
   text-transform: capitalize;
+  font-weight: 800;
+  transition: color 0.3s ease;
 }
 
 .winner-message {
-  color: #ff3d00;
+  color: var(--button-reset-color);
 }
 
+/* Game board styling */
 .game-board {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  background-color: var(--primary-color);
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+  gap: 8px;
+  background-color: var(--board-color);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
-  background-color: var(--secondary-color);
+  width: 60px;
+  height: 60px;
+  background-color: var(--board-hole-color);
   border-radius: 50%;
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.cell:hover {
+  transform: scale(1.05);
 }
 
 .piece {
@@ -177,7 +191,11 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* New class for animation, only applied to the new piece */
+.piece.animate-drop {
   animation: drop-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
@@ -193,37 +211,33 @@ body {
 }
 
 .game-message {
-  background-color: #fce4ec;
-  color: #c2185b;
-  padding: 10px 20px;
-  border-radius: 8px;
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 12px 20px;
+  border-radius: 10px;
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 15px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-@media (min-width: 768px) {
-  .game-board {
-    gap: 8px;
-  }
-  .cell {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-@media (max-width: 480px) {
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .game-card {
     padding: 20px;
   }
   .game-title {
-    font-size: 2.5em;
+    font-size: 2.5rem;
   }
   .player-inputs {
     flex-direction: column;
     gap: 15px;
   }
   .cell {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+  }
+  .game-board {
+    padding: 15px;
+    gap: 5px;
   }
 }

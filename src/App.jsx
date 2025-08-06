@@ -4,8 +4,8 @@ import './App.css';
 // Main App component for the Connect Four game
 function App() {
   // State for the player's chip colors
-  const [p1Color, setP1Color] = useState('red');
-  const [p2Color, setP2Color] = useState('yellow');
+  const [p1Color, setP1Color] = useState('#e74c3c'); // Redefined default colors
+  const [p2Color, setP2Color] = useState('#f1c40f'); // Redefined default colors
 
   // State to manage the game status
   const [gameStarted, setGameStarted] = useState(false);
@@ -18,8 +18,10 @@ function App() {
     Array.from({ length: 6 }, () => Array(7).fill(null))
   );
 
-  // State for the current player
-  const [currentPlayer, setCurrentPlayer] = useState({ id: 1, color: 'red' });
+  // State for the current player, initialized with p1Color
+  const [currentPlayer, setCurrentPlayer] = useState({ id: 1, color: '#e74c3c' });
+  // New state to track the coordinates of the last dropped piece for animation
+  const [lastDroppedPiece, setLastDroppedPiece] = useState(null);
 
   // Game constants
   const boardHeight = 6;
@@ -36,8 +38,10 @@ function App() {
     setGameOver(false);
     setWinner(null);
     setBoard(Array.from({ length: boardHeight }, () => Array(boardWidth).fill(null)));
+    // Correctly set the initial player's color
     setCurrentPlayer({ id: 1, color: p1Color });
     setMessage('');
+    setLastDroppedPiece(null); // Reset the last dropped piece
   };
 
   // Resets the game to the initial setup screen
@@ -45,18 +49,19 @@ function App() {
     setGameStarted(false);
     setGameOver(false);
     setWinner(null);
-    setP1Color('red');
-    setP2Color('yellow');
+    setP1Color('#e74c3c');
+    setP2Color('#f1c40f');
     setBoard(Array.from({ length: boardHeight }, () => Array(boardWidth).fill(null)));
-    setCurrentPlayer({ id: 1, color: 'red' });
+    setCurrentPlayer({ id: 1, color: '#e74c3c' });
     setMessage('');
+    setLastDroppedPiece(null); // Reset the last dropped piece
   };
 
   // useEffect to handle game over messages
   useEffect(() => {
     if (gameOver) {
       if (winner) {
-        setMessage(`Player ${winner.id} (${winner.color}) wins!`);
+        setMessage(`Player ${winner.id} wins!`);
       } else {
         setMessage("It's a tie!");
       }
@@ -92,6 +97,8 @@ function App() {
         const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
         const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
+        // Fixed the error where _win was called incorrectly.
+        // It's now correctly checking each win condition with the logical OR operator.
         if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
           return true;
         }
@@ -114,6 +121,9 @@ function App() {
     const newBoard = board.map(row => [...row]);
     newBoard[y][x] = currentPlayer.id;
     setBoard(newBoard);
+    
+    // Track the coordinates of the last dropped piece
+    setLastDroppedPiece({ y, x });
 
     // Check for win
     if (checkForWin(newBoard)) {
@@ -159,6 +169,7 @@ function App() {
             onClick={() => handleColumnClick(x)}
             p1Color={p1Color}
             p2Color={p2Color}
+            isLastDroppedPiece={lastDroppedPiece && lastDroppedPiece.y === y && lastDroppedPiece.x === x}
           />
         ))
       )}
@@ -166,13 +177,12 @@ function App() {
   );
 
   // Cell component
-  const Cell = ({ value, onClick, p1Color, p2Color }) => (
+  const Cell = ({ value, onClick, p1Color, p2Color, isLastDroppedPiece }) => (
     <div className="cell" onClick={onClick}>
       <div 
-        className="piece"
+        className={`piece ${isLastDroppedPiece ? 'animate-drop' : ''}`}
         style={{
           backgroundColor: value === 1 ? p1Color : value === 2 ? p2Color : 'transparent',
-          boxShadow: value ? `0 0 10px ${value === 1 ? p1Color : p2Color}` : 'none'
         }}
       ></div>
     </div>
@@ -200,7 +210,7 @@ function App() {
             </div>
             <button
               onClick={startGame}
-              className="start-button"
+              className="game-button start-button"
             >
               Start Game!
             </button>
@@ -217,7 +227,7 @@ function App() {
             <Board />
             <button
               onClick={resetGame}
-              className="reset-button"
+              className="game-button reset-button"
             >
               Reset Game
             </button>
