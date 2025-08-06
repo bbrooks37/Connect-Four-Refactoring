@@ -12,6 +12,7 @@
   --button-hover-shadow: rgba(52, 152, 219, 0.4);
   --button-start-color: #27ae60; /* A friendly green for the start button */
   --button-reset-color: #e74c3c; /* A strong red for the reset button */
+  --interactive-color: #2980b9;
 }
 
 /* Base styles for the main app container */
@@ -218,6 +219,45 @@
   font-weight: 600;
   margin-top: 15px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* New styles for the game mode selection dropdown */
+.game-mode-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.game-mode-select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 2px solid var(--board-color);
+  background-color: #fff;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Add custom arrow for dropdown */
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%232c3e50" d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 35px;
+}
+
+.game-mode-select:hover {
+  border-color: var(--interactive-color);
+  box-shadow: 0 0 0 4px rgba(41, 128, 185, 0.2);
+}
+
+.game-mode-select:focus {
+  outline: none;
+  border-color: var(--button-start-color);
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
 }
 
 /* Responsive adjustments */
